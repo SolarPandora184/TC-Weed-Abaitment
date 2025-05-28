@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Company Landing Page</title>
+  <title>Company Landing Page</title> go back to this and put the logo in the top left but don't change anything else
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,11 +20,58 @@
       width: 100%;
       min-height: 100vh;
       padding: 2rem;
+      position: relative;
+    }
+
+    /* Logo top-left */
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+    .logo-container img {
+      height: 60px;
+      width: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
     }
 
     header {
       text-align: center;
       padding-top: 10vh;
+      position: relative;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .quote-btn {
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95em;
+      background-color: #00c896;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .quote-btn:hover {
+      background-color: #00a47b;
+    }
+
+    .review-link {
+      color: #00c896;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.95em;
     }
 
     header h1 {
@@ -37,23 +84,6 @@
       max-width: 600px;
       margin: auto;
       line-height: 1.5;
-    }
-
-    .quote-btn {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1.1em;
-      background-color: #00c896;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .quote-btn:hover {
-      background-color: #00a47b;
     }
 
     section {
@@ -143,9 +173,18 @@
       section {
         margin: 2rem 1rem;
       }
+      .top-right {
+        flex-direction: column;
+        right: 1rem;
+        top: 1rem;
+      }
+      .logo-container img {
+        height: 45px;
+      }
     }
 
-    #successMessage {
+    #successMessage,
+    #reviewSuccessMessage {
       display: none;
       position: fixed;
       top: 20px;
@@ -162,10 +201,18 @@
 </head>
 <body>
   <div class="overlay">
+    <!-- Logo Top-Left -->
+    <div class="logo-container">
+      <img src="ChatGPT Image May 28, 2025, 02_04_14 PM.png" alt="TC Weed Abatement Logo" />
+    </div>
+
     <header>
+      <div class="top-right">
+        <button class="quote-btn" onclick="document.getElementById('formPopup').style.display='flex'">Get a Quote</button>
+        <span class="review-link" onclick="document.getElementById('reviewPopup').style.display='flex'">Leave a Review</span>
+      </div>
       <h1>TC Weed Abatement</h1>
       <p>Revitalizing Lawns One Day at a Time</p>
-      <button class="quote-btn" onclick="document.getElementById('formPopup').style.display='flex'">Get a Quote Today</button>
     </header>
 
     <section>
@@ -180,19 +227,18 @@
 
     <section>
       <h2>Contact</h2>
-       <p>Email: Trevorcaezza@icloud.com<br/>Phone: (661) 289-6054</p>
+      <p>Email: Trevorcaezza@icloud.com<br/>Phone: (661) 289-6054</p>
     </section>
 
     <footer>
       TM; 2025 TC Weed Abatement. Not all rights reserved.
-    </footer> <!-- NOTE: TM means Totaly Magic -->
+    </footer> <!-- NOTE: TM means Totally Magic -->
   </div>
 
-  <!-- Quote Form Popup -->
+  <!-- Quote Form -->
   <div class="form-popup" id="formPopup">
     <form class="form-container" action="https://formsubmit.co/Trevorcaezza@icloud.com" method="POST">
-      <!-- Replace this URL with your actual GitHub Pages URL -->
-<input type="hidden" name="_redirect" value="https://solarpandora184.github.io/TC-Weed-Abaitment/?success=1">
+      <input type="hidden" name="_redirect" value="https://solarpandora184.github.io/TC-Weed-Abaitment/?success=1">
       <h2>Get a Quote</h2>
       <input type="text" name="name" placeholder="Your Name" required />
       <input type="email" name="email" placeholder="Your Email" required />
@@ -202,16 +248,44 @@
     </form>
   </div>
 
-  <!-- Success Message -->
+  <!-- Review Form -->
+  <div class="form-popup" id="reviewPopup">
+    <form class="form-container" action="https://formsubmit.co/Trevorcaezza@icloud.com" method="POST">
+      <input type="hidden" name="_subject" value="New Review from Website">
+      <input type="hidden" name="_redirect" value="https://solarpandora184.github.io/TC-Weed-Abaitment/?review=1">
+      <h2>Leave a Review</h2>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <textarea name="review" rows="5" placeholder="Write your review here..." required></textarea>
+      <button type="submit">Submit</button>
+      <button type="button" class="close-btn" onclick="document.getElementById('reviewPopup').style.display='none'">Cancel</button>
+    </form>
+  </div>
+
+  <!-- Success Messages -->
   <div id="successMessage">
     ✅ Thanks! We'll reach out with your quote as soon as possible.
+  </div>
+  <div id="reviewSuccessMessage">
+    ✅ Thanks for your review! We appreciate your feedback.
   </div>
 
   <script>
     if (window.location.search.includes('success=1')) {
-      document.getElementById('successMessage').style.display = 'block';
+      const msg = document.getElementById('successMessage');
+      msg.style.display = 'block';
       setTimeout(() => {
-        document.getElementById('successMessage').style.display = 'none';
+        msg.style.display = 'none';
+        const url = new URL(window.location);
+        url.search = '';
+        window.history.replaceState({}, document.title, url);
+      }, 6000);
+    }
+
+    if (window.location.search.includes('review=1')) {
+      const msg = document.getElementById('reviewSuccessMessage');
+      msg.style.display = 'block';
+      setTimeout(() => {
+        msg.style.display = 'none';
         const url = new URL(window.location);
         url.search = '';
         window.history.replaceState({}, document.title, url);
