@@ -144,6 +144,20 @@
         margin: 2rem 1rem;
       }
     }
+
+    #successMessage {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00c896;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1.1em;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
@@ -176,7 +190,9 @@
 
   <!-- Quote Form Popup -->
   <div class="form-popup" id="formPopup">
-    <form class="form-container" action="https://formsubmit.co/Kendrick.uhles@cawgcap.org" method="POST">
+    <form class="form-container" action="https://formsubmit.co/Trevorcaezza@icloud.com" method="POST">
+      <!-- Replace this URL with your actual GitHub Pages URL -->
+<input type="hidden" name="_redirect" value="https://solarpandora184.github.io/TC-Weed-Abaitment/?success=1">
       <h2>Get a Quote</h2>
       <input type="text" name="name" placeholder="Your Name" required />
       <input type="email" name="email" placeholder="Your Email" required />
@@ -185,5 +201,22 @@
       <button type="button" class="close-btn" onclick="document.getElementById('formPopup').style.display='none'">Cancel</button>
     </form>
   </div>
+
+  <!-- Success Message -->
+  <div id="successMessage">
+    ✅ Thanks! We'll reach out with your quote as soon as possible.
+  </div>
+
+  <script>
+    if (window.location.search.includes('success=1')) {
+      document.getElementById('successMessage').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('successMessage').style.display = 'none';
+        const url = new URL(window.location);
+        url.search = '';
+        window.history.replaceState({}, document.title, url);
+      }, 6000);
+    }
+  </script>
 </body>
 </html>
